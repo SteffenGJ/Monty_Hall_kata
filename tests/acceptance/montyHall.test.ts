@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { Listener } from "../../src/listener";
+import { Listener, SimulatorListener, UiListener } from "../../src/listener";
 import { Publisher } from "../../src/publisher";
+import { Simulator } from "../../src/simulator";
 import { UI } from "../../src/ui";
 import { TestApp, Driver, Simulating } from "../resources/temporary";
 
@@ -66,11 +67,18 @@ import { TestApp, Driver, Simulating } from "../resources/temporary";
 describe("Monty Hall Simulator", () => {
     let publisher: Publisher;
     let simulating: Simulating;
+    let app: TestApp;
     beforeEach(() => {
-        let app = new TestApp();
+        app = new TestApp();
         publisher = new Publisher();
-        app.start(publisher);
+        let simulator = new Simulator();
+        let simulationListener = new SimulatorListener(simulator);
+        let ui = new UI();
+        let uiListener = new UiListener(ui);
+        simulationListener.subscribe(publisher);
+        uiListener.subscribe(publisher);
         simulating = new Simulating(new Driver());
+        app.start(publisher, ui);
     })
 
     it("should show the results of a given number of simulated games when simulated", () => {

@@ -18,12 +18,18 @@ export class UI {
         input.id = id;
         input.className = "stdInput";
         document.body.appendChild(input);
+        return input;
     }
 
-    createSomeElement() {
-        const element = document.createElement("div");
-        element.id = "changeStrategySimulationResults";
-        element.innerHTML = "Ran 1000 simulations with this strategy.";
-        document.body.appendChild(element);
+    createSimulationResults(runs: number, strategy: string) {
+        const paragraph = this.createParagraph(`Ran ${runs} simulations with the ${strategy} strategy`);
+        paragraph.id = "changeStrategySimulationResults";
+    }
+
+    createParagraph(text: string) {
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = text;
+        document.body.appendChild(paragraph);
+        return paragraph;
     }
 }

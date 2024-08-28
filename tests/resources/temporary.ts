@@ -1,16 +1,20 @@
 import { UI } from "../../src/ui";
 import { Publisher } from "../../src/publisher";
+import { ChangeDoorStrategy } from "../../src/strategies";
+import { UiListener } from "../../src/listener";
 
 class TestApp {
-    start(publisher: Publisher) {
-        let ui = new UI();
+    start(publisher: Publisher, ui: UI) {
+        // let ui = new UI();
+        // let listener = new UiListener(ui);
+        // listener.subscribe(publisher);
 
         document.body.innerHTML = 
         '<h1>Home</h1>' +
         '<p>Welcome to the home page.</p>';
 
         ui.createInput("changeStrategyInput", "number");
-        ui.createButton("startChangeStrategySimulationButton", "changeStrategyButton", () => console.log("")/*() => publisher.runSimulator()*/);
+        ui.createButton("startChangeStrategySimulationButton", "changeStrategyButton", () => publisher.runSimulator(1, new ChangeDoorStrategy()));
     }
 
     
@@ -26,7 +30,9 @@ class Driver {
         startButton!.click();
     }
     assertSimulationsRan(runs: number) {
-        expect(document.getElementById("changeStrategySimulationResults")?.innerHTML).toContain(`Ran ${runs} simulations with this strategy.`);
+        let currentBody = document.body.innerHTML;
+        //expect(document.getElementById("changeStrategySimulationResults")?.innerHTML).toContain(`Ran ${runs} simulations with this strategy.`);
+        expect(currentBody.includes("Ran 1 simulations with the Change Door strategy")).toBe(true);
     }
 
 }

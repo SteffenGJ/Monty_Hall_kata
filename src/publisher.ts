@@ -1,4 +1,5 @@
 import { Listener } from "./listener";
+import { Strategy } from "./strategies";
 
 
 export class Publisher {
@@ -8,7 +9,7 @@ export class Publisher {
         this.listeners.push(listener);
     }
 
-    doSomething() {
-        this.listeners.forEach(listener => listener.onSomething());
+    runSimulator(runs: number, strategy: Strategy) {
+        this.listeners.forEach(listener => listener.onSimulatorRun(runs, strategy));
     }
 }
